@@ -93,7 +93,14 @@
 				return postfix + a;
 			});
 		},
-
+		setOpacity : function(ele, opacity){
+			var vml = this.getVml(ele);
+			if(vml){
+				vml.find("fill").prop("opacity", opacity);
+			} else {
+				$(ele).css("opacity", opacity);
+			}
+		},
 
 		/**
 		 * Public
@@ -130,6 +137,7 @@
 					set.call(this);
 				}
 			});
+			return this;
 		},
 		swap : function($ele, src){
 			var ele, vml;
@@ -144,6 +152,7 @@
 			} else {
 				$ele.css("background-image", "url(" + src + ")");
 			}
+			return this;
 		},
 		swapOnHover : function($ele, config){
 			var self, option, handler;
@@ -180,9 +189,39 @@
 				};
 				hover.src = o.data(option.hover);
 			});
+			return this;
 		},
 		fade : function($ele, opacity, config){
+			var self, option, run;
+			self = this;
+			option = {
+				duration : 500,
+				flag : this.type + "-fade-complete",
+				interval : 3
+			};
+			$.extend(option, config);
+			run = function(ele){
+				var o = $(ele);
+				if(o.data(option.flag)){ return; }
+				self.setOpacity(ele, o.css("opacity"));
+				setTimeout(function(){
+					run(ele)
+				}, option.interval);
+			};
+			$ele.each(function(){
+				var o = $(this);
+				o.data(option.flag, false);
+				if(self.getVml(this)){
+					run(this);
+				}
+				o.stop().fadeTo(option.duration, opacity, function(){
+					o.data(option.flag, true);
+				});
+			});
 		}
+
+
+
 	}).initialize();
 
 	window.Imagery = Imagery;
@@ -210,6 +249,19 @@
 			return $(this).data("ignore") == true;
 		}
 	});
+
+
+	var op = $(".opacity-test");
+	Imagery.alpha(op);
+
+	op.each(function(){
+		Imagery.setOpacity(this, 0.3);
+	});
+
+	var fade = $(".fade-test");
+	Imagery.alpha(fade);
+	Imagery.fade(fade, 0);
+
 
 
 
