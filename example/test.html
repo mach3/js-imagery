@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+	body {
+		background-color:#456;
+	}
+	.button {
+		display:block;
+		background:url(./button.png) 0 0 no-repeat;
+		width:64px;
+		height:64px;
+		white-space:nowrap;
+		text-indent:100%;
+		overflow:hidden;
+	}
+	* {
+		margin:0px;
+		padding:0px;
+	}
+	body {
+		margin:30px;
+	}
+	ul {
+		margin:30px;
+		overflow:hidden;
+	}
+	li {
+		list-style-type:none;
+		float:left;
+		margin-right:10px;
+	}
+	</style>
+</head>
+<body>
+
+
+<ul>
+	<li><img src="button.png" class="foo" /></li>
+	<li><img src="button.png" class="foo" /></li>
+	<li><img src="button.png" class="foo" data-ignore="true" /></li>
+	<li><img src="button.png" class="foo" /></li>
+	<li><img src="button.png" class="foo" /></li>
+</ul>
+
+<ul>
+	<li><span class="bar button">foo</span></li>
+	<li><span class="bar button">foo</span></li>
+	<li><span class="bar button" data-ignore="true">foo</span></li>
+	<li><span class="bar button">foo</span></li>
+	<li><span class="bar button">foo</span></li>
+</ul>
+
+
+
+<script type="text/javascript" src="../js/_jquery.js"></script>
+<script type="text/javascript" src="../js/imagery.js"></script>
+
+	
+</body>
+</html>
