@@ -156,13 +156,12 @@
 		},
 		swapOnHover : function($ele, config){
 			var self, option, handler;
-
 			self = this;
 			option = {
 				postfix : "-hover",
 				normal : this.type + "-default-src",
 				hover : this.type + "-hover-src",
-				ignore : function(){ return true; }
+				ignore : function(){ return false; }
 			};
 			$.extend(option, config);
 			handler = function(e){
@@ -175,7 +174,6 @@
 					}
 				}
 			};
-
 			$ele.each(function(){
 				var ele, o, src, hover;
 				ele = this;
@@ -216,6 +214,51 @@
 				}
 				o.stop().fadeTo(option.duration, opacity, function(){
 					o.data(option.flag, true);
+				});
+			});
+		},
+		blendOnHover : function($ele, config){
+			var self, option, handler;
+			self = this;
+			option = {
+				postfix : "-hover",
+				origin : this.type + "-blend-origin",
+				durationOnEnter : 100,
+				durationOnLeave : 300,
+				interval : 3,
+				ignore : function(){ return false; }
+			};
+			$.extend(option, config);
+			handler = function(e){
+				var o, enter;
+				o = $(this);
+				enter = e.type == "mouseenter" ? 1 : 0;
+				if(! option.ignore.call(o.data(option.origin))){
+					self.fade($(this), enter ? 1 : 0, {
+						duration : enter ? option.durationOnEnter : option.durationOnLeave,
+						interval : option.interval
+					});
+				}
+			};
+			$ele.each(function(){
+				var o, src, above;
+				o = $(this);
+				src = self.getStateSource(self.getSource(this), option.postfix);
+				above = $("<img>").attr({
+					src : src,
+					width : o.width(),
+					height : o.height()
+				}).css({
+					"position" : "absolute"
+				}).data(option.origin, this);
+				above.insertBefore(o);
+				self.alpha(above);
+				self.setOpacity(above, 0);
+				above.hover(handler, handler);
+				above.on(self.option.events.join(" "), function(e){
+					e.preventDefault();
+					e.stopPropagation();
+					o.trigger(e.type);
 				});
 			});
 		}
@@ -261,6 +304,19 @@
 	var fade = $(".fade-test");
 	Imagery.alpha(fade);
 	Imagery.fade(fade, 0);
+
+
+	var blend = $(".blend-test");
+	blend.on("click", function(){
+		alert("blend click");
+	});
+	Imagery.alpha(blend);
+	Imagery.blendOnHover(blend, {
+		duration : 100,
+		ignore : function(){
+			return $(this).data("ignore") == true;
+		}
+	});
 
 
 

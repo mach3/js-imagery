@@ -26,6 +26,7 @@
 	ul {
 		margin:30px;
 		overflow:hidden;
+		clear:both;
 	}
 	li {
 		list-style-type:none;
@@ -59,6 +60,23 @@
 
 <ul>
 	<li><img src="button-hover.png" class="fade-test" /></li>
+</ul>
+
+<ul>
+	<li><img src="button.png" class="blend-test" /></li>
+	<li><img src="button.png" class="blend-test" data-ignore="true" /></li>
+	<li><img src="button.png" class="blend-test" /></li>
+	<li><img src="button.png" class="blend-test" /></li>
+	<li><img src="button.png" class="blend-test" /></li>
+</ul>
+
+<ul>
+	<li><span class="button blend-test">foo</span></li>
+	<li><span class="button blend-test" data-ignore="true">foo</span></li>
+	<li><span class="button blend-test">foo</span></li>
+	<li><span class="button blend-test">foo</span></li>
+	<li><span class="button blend-test">foo</span></li>
+	<li><span class="button blend-test">foo</span></li>
 </ul>
 
 <script type="text/javascript" src="../js/_jquery.js"></script>
